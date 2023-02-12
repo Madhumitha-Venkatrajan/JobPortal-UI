@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { getJob } from '../services/PersonService';
 import Job from "./Job";
-import AppButton from "./Button"
 import { useNavigate } from 'react-router-dom'
+import { NavDropdown } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, Navbar, Nav, Figure } from "react-bootstrap";
 
 const JobList = () => {
 
@@ -28,15 +29,36 @@ const JobList = () => {
   }
 
   return (
-    <div className="jobListBox">
+ //  Navbar
+ <div>
+ <Navbar bg="light" expand="lg">
+   <Container mt-3>
+     <Navbar.Brand href="home"><span class="text-success">Job Portal</span></Navbar.Brand>
+     <Navbar.Toggle aria-controls="basic-navbar-nav" />
+     <Navbar.Collapse id="basic-navbar-nav">
+       <Nav className="ms-auto">
+         <Nav.Link href="home">Home</Nav.Link>
+         <Nav.Link href="postJob">Post Job</Nav.Link>
+         <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+           <NavDropdown.Item href="#ContactUs/3.1">Contact Us</NavDropdown.Item>
+           <NavDropdown.Item href="#About/3.2">
+             About
+           </NavDropdown.Item>
+         </NavDropdown>
+       </Nav>
+     </Navbar.Collapse>
+   </Container>
+ </Navbar>
+
+    {/* <div className="jobListBox">
      <header className="header" >
-     <AppButton color='Blue' text='JobPost' kaluthaiXyz={jobPost} />
+     <Button variant="primary" text='JobPost' kaluthaiXyz={jobPost} />
      </header>
      {jobList.map((job)=>
     <Job key={job.jobID} job={job}></Job> 
      )} 
-    </div>
-
+    </div> */}
+</div>
   )
 }
 

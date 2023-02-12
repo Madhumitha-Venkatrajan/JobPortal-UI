@@ -33,7 +33,7 @@ const LoginForm = () => {
             alert("Try again later");
             return;
         }
-        if (res.data == 200) {
+        if (res.status == 200) {
             alert("Logged in successfully");
             localStorage.setItem('EmailID', loginData.emailID)
             navigateToJobList();
