@@ -4,6 +4,8 @@ import Job from "./Job";
 import { useNavigate } from 'react-router-dom'
 import { NavDropdown } from "react-bootstrap";
 import { Button, Card, Col, Container, Row, Navbar, Nav, Figure } from "react-bootstrap";
+import ListGroup from 'react-bootstrap/ListGroup';
+
 
 const JobList = () => {
 
@@ -50,13 +52,16 @@ const JobList = () => {
         </Container>
       </Navbar>
 
-      <Container mt-3>
-        <div class="d-sm-flex">
-          <div>
-          {jobList.map((job) =>
-              <Job key={job.jobID} job={job}></Job>
+      <Container >
+        <div class="d-sm-flex w-50">
+          <div className='w-100'>
+            {jobList.map((job) =>
+              <>
+                <Job key={job.jobID} className='w-100' variant="primary" job={job} ></Job>
+                <hr />
+              </>
             )}
-            </div>
+          </div>
           <div className="ms-auto">
             <h1>hi</h1>
           </div>

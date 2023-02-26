@@ -4,8 +4,8 @@ import { createUser } from '../services/PersonService';
 import { bootstrap } from 'bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
-
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
 const SignUpForm = () => {
@@ -14,9 +14,27 @@ const SignUpForm = () => {
             name: '',
             phoneNumber: '',
             emailID: '',
-            password: '',
-            confirmPassword: ''
+            roleID: ''
         })
+
+    const [formDataPass, setFormDataPass] = useState(
+        {
+            password: '',
+            //  confirmPassword: ''
+        })
+
+    const roles = [
+        { roleID: "1", roleName: "Job Seeker" },
+        { roleID: "2", roleName: "Job Provider" }
+    ];
+
+    const getRoleNameByID = (roleID) => {
+        const filteredRole = roles.filter((role) => {
+            return role.roleID == roleID;
+        });
+        if (filteredRole == null || filteredRole.length <= 0) return "";
+        return filteredRole[0].roleName;
+    }
 
     const navigate = useNavigate();
 
@@ -38,15 +56,26 @@ const SignUpForm = () => {
 
     }
 
+    //  const updateRoleName = (e) => {
+    //     setFormData({ ...formData, roleName: e.target.eventKey })
+    // }
+
+    const updateRoleID = (e) => {
+        console.log(e);
+        setFormData({ ...formData, roleID: e })
+    }
+
+
+
     const updatePassword = (e) => {
-        setFormData({ ...formData, password: e.target.value })
+        setFormDataPass({ ...formDataPass, password: e.target.value })
 
     }
 
-    const updateConfirmPassword = (e) => {
-        setFormData({ ...formData, confirmPassword: e.target.value })
+    // const updateConfirmPassword = (e) => {
+    //     setFormData({ ...formData, confirmPassword: e.target.value })
 
-    }
+    // }
 
     const createUserStatus = (res) => {
 
@@ -66,7 +95,7 @@ const SignUpForm = () => {
 
     const submit = (e) => {
         e.preventDefault()
-        createUser(formData, createUserStatus)
+        createUser(formData, formDataPass.password, createUserStatus)
     }
 
 
@@ -83,34 +112,22 @@ const SignUpForm = () => {
                 <Form.Control type="EmailID" placeholder="Enter EmailID" value={formData.emailID} onChange={updateEmailID} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPass">
-                <Form.Control type="Password" placeholder="Enter Password" value={formData.password} onChange={updatePassword} />
+                <Form.Control type="Password" placeholder="Enter Password" value={formDataPass.password} onChange={updatePassword} />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
-                <Form.Control type="Confirm Password" placeholder="Enter Confirm Passowrd" value={formData.confirmPassword} onChange={updateConfirmPassword} />
-            </Form.Group>
-            <Button onClick={submit} variant="primary" type="submit" value="Submit">
-            SignUp
-            </Button>
-
+            <DropdownButton onSelect={updateRoleID} variant="light" title={getRoleNameByID(formData.roleID)}>
+                {roles.map((role) =>
+                    <Dropdown.Item eventKey={role.roleID}>{role.roleName}</Dropdown.Item>
+                )}
+            </DropdownButton>
+            <div class="lead my-4">
+                <Button onClick={submit} variant="primary" type="submit" value="Submit">
+                    SignUp
+                </Button>
+            </div>
         </Form>
 
-    )
+    );
 }
-
-{/* <form>
-            <label for="fname">Name:</label>
-            <input type="text" name="fname"  value={formData.name} onChange={updateFirstName} />
-            <label for="phNum">Phone Number:</label>
-            <input type="text" name="phNum"  value={formData.phoneNumber} onChange={updatephoneNumber} />
-            <label for="emailID">Email ID:</label>
-            <input type="text" name="emailID"  value={formData.emailID} onChange={updateEmailID} />
-            <label for="pass">Password:</label>
-            <input type="text" name="pass" value={formData.password} onChange={updatePassword} />
-            <label for="confirmPass">Confirm Password:</label>
-            <input type="text" name="confirmPass"  value={formData.confirmPassword} onChange={updateConfirmPassword} />
-            <input onClick={submit} type="submit" value="Submit"></input>
-        </form> */}
-
 
 
 export default SignUpForm

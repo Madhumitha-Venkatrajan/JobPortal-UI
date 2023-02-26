@@ -35,7 +35,10 @@ const LoginForm = () => {
         }
         if (res.status == 200) {
             alert("Logged in successfully");
-            localStorage.setItem('EmailID', loginData.emailID)
+            sessionStorage.setItem('EmailID', loginData.emailID)
+            sessionStorage.setItem('jwttoken',res.data.jwttoken);
+            sessionStorage.setItem('refreshtoken',res.data.refreshtoken);
+            sessionStorage.setItem('authTokenTime', (new Date()).getTime());
             navigateToJobList();
         }
         else {
@@ -65,18 +68,8 @@ const LoginForm = () => {
             </Button>
 
         </Form>
-
-
-
-        // <form>
-        //     <label for="eMail">EmailID:</label>
-        //     <input type="text" name="eMail"  value={loginData.emailID} onChange={eMailID} />
-        //     <label for="passwrd">Password:</label>
-        //     <input type="text" name="passwrd"  value={loginData.password} onChange={password} />
-        //     <input onClick={submit} type="Submit" value="Submit"></input>
-        // </form> 
     );
-}
+    }
 
 export default LoginForm
 

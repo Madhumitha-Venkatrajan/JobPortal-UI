@@ -1,12 +1,25 @@
 import axios from "axios";
-import {  Buffer } from "buffer";
+import { Buffer } from "buffer";
 
 
-export const createUser = (person, callBack) => {
+
+
+// export const createUser = (person, callBack) => {
+//     axios.post(
+//         "https://localhost:7297/api/JobPortalAPI", person
+//     ).then(callBack);
+
+// }
+
+export const createUser = (person,password,callBack) => {
+    const base64encodedData = Buffer.from(`${password}`).toString('base64');
     axios.post(
-        "https://localhost:7297/api/JobPortalAPI", person
+        "https://localhost:7297/api/JobPortalAPI", person, {
+            headers: {
+                'Authorization': `Basic ${base64encodedData}`
+            }
+        }
     ).then(callBack);
-
 }
 
 export const createJobPost = (postJobFormData, callBack) => {
@@ -52,6 +65,24 @@ export const jobApplied = (formData, callBack) => {
 //     // console.log(res)
 // }
 
+export const renewAuthToken = () => {
+    const jwtToken = sessionStorage.getItem('jwttoken');
+    const refreshToken = sessionStorage.getItem('refreshtoken');
+    axios.post(
+        "https://localhost:7297/api/JobPortalAPI/RefToken",{
+            jwttoken : jwtToken,
+            refreshtoken : refreshToken  
+        }
+    ).then((res) => {
+        if (res.status == 200){
+            sessionStorage.setItem('jwttoken', res.data.jwttoken);
+            sessionStorage.setItem('refreshtoken', res.data.refreshtoken);
+            sessionStorage.setItem('authTokenTime', (new Date()).getTime());
+            setTimeout(renewAuthToken, 900000);
+        }
+    });
+}
+
 export const validateUser = (emailID, password, callBack) => {
     const base64encodedData = Buffer.from(`${emailID}:${password}`).toString('base64');
     axios.get(
@@ -59,59 +90,17 @@ export const validateUser = (emailID, password, callBack) => {
         {
             headers: {
                 'Authorization': `Basic ${base64encodedData}`
-               
             }
         }
     ).then((res) => {
-        axios.interceptors.request.use(
-            (config) => {
-              const token = res.getLocalAccessToken();
-              if (token) {
-                // config.headers["Authorization"] = 'Bearer ' + token;  // for Spring Boot back-end
-                config.headers["x-access-token"] = token; // for Node.js Express back-end
-              }
-              return config;
-            },
-            (error) => {
-              return Promise.reject(error);
-            }
-          );
-          
-          axios.interceptors.response.use(
-            (res) => {
-              return res;
-            },
-            async (err) => {
-              const originalConfig = err.config;
-          
-              if (originalConfig.url !== "/auth/LoginForm" && err.response) {
-                // Access Token was expired
-                if (err.response.status === 401 && !originalConfig._retry) {
-                  originalConfig._retry = true;
-          
-                  try {
-                    const rs = await axios.post("/auth/refreshtoken", {
-                      refreshToken: res.getLocalRefreshToken(),
-                    });
-          
-                    const { accessToken } = rs.data;
-                    res.updateLocalAccessToken(accessToken);
-          
-                    return axios(originalConfig);
-                  } catch (_error) {
-                    return Promise.reject(_error);
-                  }
-                }
-              }
-          
-              return Promise.reject(err);
-            }
-          );
-          
+        if (res.status == 200) {
+            setTimeout(renewAuthToken, 900000);
+            callBack(res);
+        }
     });
-    
+
 }
- 
+
 
 //.then(callBack);
 export const getJob = (callBack) => {
