@@ -11,15 +11,20 @@ import { Buffer } from "buffer";
 
 // }
 
-export const createUser = (person,password,callBack) => {
-    const base64encodedData = Buffer.from(`${password}`).toString('base64');
+export const createUser = (person,emailID,password,callBack) => {
+    const base64encodedData = Buffer.from(`${emailID}:${password}`).toString('base64');
     axios.post(
-        "https://localhost:7297/api/JobPortalAPI", person, {
+        "https://localhost:7297/api/JobPortalAPI/SignUp", person, {
             headers: {
                 'Authorization': `Basic ${base64encodedData}`
             }
         }
-    ).then(callBack);
+    ).then((res) => {
+        if (res.status == 200) {
+            setTimeout(renewAuthToken, 900000);
+            callBack(res);
+        }
+    });
 }
 
 export const createJobPost = (postJobFormData, callBack) => {

@@ -13,12 +13,12 @@ const SignUpForm = () => {
         {
             name: '',
             phoneNumber: '',
-            emailID: '',
             roleID: ''
         })
 
     const [formDataPass, setFormDataPass] = useState(
         {
+            emailID: '',
             password: '',
             //  confirmPassword: ''
         })
@@ -51,21 +51,16 @@ const SignUpForm = () => {
         setFormData({ ...formData, phoneNumber: e.target.value })
     }
 
-    const updateEmailID = (e) => {
-        setFormData({ ...formData, emailID: e.target.value })
-
-    }
-
-    //  const updateRoleName = (e) => {
-    //     setFormData({ ...formData, roleName: e.target.eventKey })
-    // }
 
     const updateRoleID = (e) => {
         console.log(e);
         setFormData({ ...formData, roleID: e })
     }
 
+    const updateEmailID = (e) => {
+        setFormDataPass({ ...formDataPass, emailID: e.target.value })
 
+    }
 
     const updatePassword = (e) => {
         setFormDataPass({ ...formDataPass, password: e.target.value })
@@ -85,6 +80,10 @@ const SignUpForm = () => {
                 return
             }
             alert("successfully created profile");
+            sessionStorage.setItem('EmailID', formDataPass.emailID)
+            sessionStorage.setItem('jwttoken',res.data.jwttoken);
+            sessionStorage.setItem('refreshtoken',res.data.refreshtoken);
+            sessionStorage.setItem('authTokenTime', (new Date()).getTime());
             navigateToJobList();
         }
         else {
@@ -95,7 +94,7 @@ const SignUpForm = () => {
 
     const submit = (e) => {
         e.preventDefault()
-        createUser(formData, formDataPass.password, createUserStatus)
+        createUser(formData,formDataPass.emailID,formDataPass.password, createUserStatus)
     }
 
 
@@ -109,7 +108,7 @@ const SignUpForm = () => {
                 <Form.Control type="Phone No." placeholder="Enter valid Phone Number" value={formData.phoneNumber} onChange={updatephoneNumber} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Control type="EmailID" placeholder="Enter EmailID" value={formData.emailID} onChange={updateEmailID} />
+                <Form.Control type="EmailID" placeholder="Enter EmailID" value={formDataPass.emailID} onChange={updateEmailID} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPass">
                 <Form.Control type="Password" placeholder="Enter Password" value={formDataPass.password} onChange={updatePassword} />
