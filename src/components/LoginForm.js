@@ -35,9 +35,9 @@ const LoginForm = () => {
         }
         if (res.status == 200) {
             alert("Logged in successfully");
-            sessionStorage.setItem('EmailID', loginData.emailID)
-            sessionStorage.setItem('jwttoken',res.data.jwttoken);
-            sessionStorage.setItem('refreshtoken',res.data.refreshtoken);
+            localStorage.setItem('EmailID', loginData.emailID)
+            sessionStorage.setItem('jwttoken', res.data.jwttoken);
+            sessionStorage.setItem('refreshtoken', res.data.refreshtoken);
             sessionStorage.setItem('authTokenTime', (new Date()).getTime());
             navigateToJobList();
         }
@@ -69,7 +69,7 @@ const LoginForm = () => {
 
         </Form>
     );
-    }
+}
 
 export default LoginForm
 

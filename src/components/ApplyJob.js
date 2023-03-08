@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useLocation } from "react-router-dom";
 import { jobApplied } from '../services/PersonService';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 
 const ApplyJob = () => {
@@ -45,14 +47,18 @@ const ApplyJob = () => {
 
   return (
     <form>
-      <label for="exprnce">Experience:</label>
-      <input type="text" name="exprnce"  value={applyJobForm.experience} onChange={updateExperience} />
-      <label for="skils">Skills:</label>
-      <input type="text" name="skils"  value={applyJobForm.skills} onChange={updateSkills} />
+      <Form.Group className="mb-3" controlId="formBasicExp">
+        <Form.Control type="Experience" placeholder="Enter Experience" value={applyJobForm.experience} onChange={updateExperience} />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicSkills">
+        <Form.Control type="Skills" placeholder="Enter skills eg: C#, Java, Python" value={applyJobForm.skills} onChange={updateSkills} />
+      </Form.Group>
       <input type="file" onChange={handleInputChange} />
       <br />
       <br />
-      <input onClick={submit} type="Submit" value="Submit"></input>
+      <Button onClick={submit} variant="primary" type="submit" value="Submit">
+        Submit
+      </Button>
     </form>
 
     /* <div>

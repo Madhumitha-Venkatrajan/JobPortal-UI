@@ -4,23 +4,26 @@ import Job from "./Job";
 import { useNavigate } from 'react-router-dom'
 import { NavDropdown } from "react-bootstrap";
 import { Button, Card, Col, Container, Row, Navbar, Nav, Figure } from "react-bootstrap";
-
-
+import Table from 'react-bootstrap/Table';
+import Form from 'react-bootstrap/Form';
+import ApplyJob from "./ApplyJob";
+import Modal from 'react-bootstrap/Modal';
+import ViewProfile from "./ViewProfile";
+import { FaEdit } from "react-icons/fa";
 
 const JobList = () => {
 
   const [jobList, setJobList] = useState([])
+  const [modalToDisplay, setModal] = useState();
 
-  // const setJobListData = (data) => {
-  //   console.log("Received data for updating state");
-  //   setJobList(data);
-  // }
+  const handleClose = () => setModal(null);
+  const handleShow = () => setModal("ApplyJob");
+  const showProfileModal = () => setModal("Profile");
 
   useEffect(() => {
-    if (jobList.length === 0)
-      getJob(setJobList)
+    getJob(setJobList)
     //console.log("getJob call is completed. Exiting useeffect.");
-  }, [jobList]);
+  }, []);
 
   // console.log(jobList);
 
@@ -30,21 +33,39 @@ const JobList = () => {
     navigate('/postJob');
   }
 
+  // const onClick=(e) =>{
+  //   e.preventDefault();
+
+  // }
+
   return (
     //  Navbar
-    <div>
+    <div className="vh-100" >
       <Navbar bg="light" expand="lg">
         <Container mt-3>
           <Navbar.Brand href="home"><span class="text-success">Job Portal</span></Navbar.Brand>
+          <Form className="d-flex">
+            <Form.Control
+              type="search"
+              placeholder="Search by title"
+              className="me-2"
+              aria-label="Search"
+            />
+            <Button variant="outline-success">Search</Button>
+          </Form>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <Nav.Link href="home">Home</Nav.Link>
               <Nav.Link href="postJob">Post Job</Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#ContactUs/3.1">Contact Us</NavDropdown.Item>
+                <NavDropdown.Item onClick={showProfileModal}>View Profile
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#Admin/3.2">Admin</NavDropdown.Item>
+                <NavDropdown.Item href="#ContactUs/3.3">Contact Us</NavDropdown.Item>
+                <NavDropdown.Divider />
                 <NavDropdown.Item href="#About/3.2">
-                  About
+                  SignOut
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
@@ -52,18 +73,48 @@ const JobList = () => {
         </Container>
       </Navbar>
 
-      <Container className="w-100">
-        <div className="d-sm-flex">
-          <div className='w-50 d-none d-sm-block vh-100 px-3 overflow-auto' >
-            {jobList.map((job) =>
-              <Job key={job.jobID} variant="primary" job={job} ></Job>
-            )}
+      <section class="text-dark text-center" text-sm-start>
+        <Container className="w-100">
+          <div className="d-sm-flex">
+            <div className="w-50 d-none d-sm-block overflow-auto vh-100 ">
+              <Table className="table table-bordered">
+                <tbody>
+                  {jobList.map((job) =>
+                    <tr>
+                      <td> <Job key={job.jobID} variant="primary" job={job} ></Job></td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            </div>
+            <div className="ms-auto">
+              <Button onClick={handleShow}>
+                Apply
+              </Button>
+              <Modal
+                show={modalToDisplay != null}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+              >
+                <Modal.Header >
+                  <Modal.Title>{modalToDisplay == 'Profile' ? 'View Profile' : 'Apply Job'}</Modal.Title>
+                  {<FaEdit title="Edit"/>}
+                </Modal.Header>
+                <Modal.Body>
+                  {modalToDisplay == 'Profile' && <ViewProfile />}
+                  {modalToDisplay == 'ApplyJob' && <ApplyJob />}
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </div>
           </div>
-          <div className="ms-auto">
-            <h1>hi</h1>
-          </div>
-        </div>
-      </Container>
+        </Container>
+      </section>
 
 
       {/* <div >
@@ -77,3 +128,8 @@ const JobList = () => {
 
 export default JobList
 //<h3 style={{ color: 'red', cursor: 'pointer' }}>{setJobList}</h3>
+
+
+// {jobList.map((job) =>
+//   <Job key={job.jobID} variant="primary" job={job} ></Job>
+// )}

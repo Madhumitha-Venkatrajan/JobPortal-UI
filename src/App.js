@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import ApplyJob from "./components/ApplyJob";
 import PostJob from "./components/PostJob";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ViewProfile from "./components/ViewProfile";
 
 
 
@@ -42,11 +43,13 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/jobList" element={<JobList />} />
+        <Route path="/viewProfile" element={<ViewProfile/>} />
         {/* <Route path="/login" element={<LoginForm />} /> */}
         {/* <Route path="/signUp" element={<SignUpForm />} /> */}
         <Route path="/applyJob" element={<ApplyJob />} />
         <Route path="/postJob" element={<PostJob />} />
         <Route path="*" element={<Home />} />
+       
       </Routes>
     </BrowserRouter>
   )
