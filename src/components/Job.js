@@ -12,13 +12,13 @@ const Job = ({ job }) => {
   // }
 
   return (
-     <div>
-                <h5>{job.companyName}</h5>
-                <p>{job.jobTtile}</p>
-                <p>{job.fullTime}</p>
-                <p>{job.salary}</p>
-                <p>{job.location}</p>
-</div>
+    <div>
+      <h5>{job.companyName}</h5>
+      <p>{job.jobTtile}</p>
+      <p>{job.fullTime}</p>
+      <p>{job.salary}</p>
+      <p>{job.location}</p>
+    </div>
   )
 }
 

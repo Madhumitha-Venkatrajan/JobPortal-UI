@@ -135,3 +135,15 @@ export const getPersonDetails = (callBack,emailID) => {
         }
     });
 }
+
+    export const editPersonDetails = (callBack,emailID) => {
+        axios.get(
+            `https://localhost:7297/api/JobportalAPI/EditProfile/${emailID}`,
+            
+        ).then((res) => {
+            console.log("Received response from api");
+            if (res.status === 200) {
+                if (callBack != null && typeof (callBack) == "function") callBack(res.data);
+            }
+        });
+}

@@ -10,6 +10,8 @@ import ApplyJob from "./ApplyJob";
 import Modal from 'react-bootstrap/Modal';
 import ViewProfile from "./ViewProfile";
 import { FaEdit } from "react-icons/fa";
+import UseBodyScrollLock from "./UseBodyScrollLock";
+import EditProfile from "./EditProfile";
 
 const JobList = () => {
 
@@ -19,11 +21,13 @@ const JobList = () => {
   const handleClose = () => setModal(null);
   const handleShow = () => setModal("ApplyJob");
   const showProfileModal = () => setModal("Profile");
+  const showEditProfile = () => setModal("Edit");
 
   useEffect(() => {
     getJob(setJobList)
     //console.log("getJob call is completed. Exiting useeffect.");
   }, []);
+
 
   // console.log(jobList);
 
@@ -33,6 +37,17 @@ const JobList = () => {
     navigate('/postJob');
   }
 
+  const getTitle = () => {
+    if (modalToDisplay == 'Profile') {
+      return 'View Profile'
+    }
+    else if (modalToDisplay == 'ApplyJob') {
+      return 'Apply'
+    }
+    else {
+      return 'Edit'
+    }
+  }
   // const onClick=(e) =>{
   //   e.preventDefault();
 
@@ -98,12 +113,18 @@ const JobList = () => {
                 keyboard={false}
               >
                 <Modal.Header >
-                  <Modal.Title>{modalToDisplay == 'Profile' ? 'View Profile' : 'Apply Job'}</Modal.Title>
-                  {<FaEdit title="Edit"/>}
+                  {/* <Modal.Title>{modalToDisplay == 'Profile' ? 'View Profile' : 'Apply Job'}</Modal.Title> */}
+                  <Modal.Title> {
+                    getTitle()
+                  }
+                  </Modal.Title>
+
+                  {<FaEdit onClick={showEditProfile} title="Edit" />}
                 </Modal.Header>
                 <Modal.Body>
                   {modalToDisplay == 'Profile' && <ViewProfile />}
                   {modalToDisplay == 'ApplyJob' && <ApplyJob />}
+                  {modalToDisplay == 'Edit' && <EditProfile />}
                 </Modal.Body>
                 <Modal.Footer>
                   <Button variant="secondary" onClick={handleClose}>
@@ -116,12 +137,8 @@ const JobList = () => {
         </Container>
       </section>
 
+      <UseBodyScrollLock />
 
-      {/* <div >
-     {jobList.map((job)=>
-    <Job key={job.jobID} job={job}></Job> 
-     )} 
-    </div> */}
     </div>
   )
 }
