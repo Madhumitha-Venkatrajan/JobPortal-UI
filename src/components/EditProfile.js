@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from "react";
 import { editPersonDetails } from '../services/PersonService';
-
+import { editPersonPost } from '../services/PersonService';
 
 const EditProfile = () => {
 
@@ -47,8 +47,18 @@ const EditProfile = () => {
     setEditFormData({ ...editFormData, skills: e.target.value })
   }
 
+  const profileEdited = (res) => {
+    if(res!="failure"){
+   alert("saved Person details successfully")
+  }
+  else{
+    alert("Person details saved failed, try again later")
+  }
+}
+
   const submit = (e) => {
     e.preventDefault()
+    editPersonPost(editFormData,profileEdited)
 
   }
   return (

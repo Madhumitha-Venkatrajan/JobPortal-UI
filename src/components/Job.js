@@ -13,8 +13,8 @@ const Job = ({ job }) => {
 
   return (
     <div>
-      <h5>{job.companyName}</h5>
-      <p>{job.jobTtile}</p>
+      <h5>{job.jobTitle}</h5>
+      <p>{job.companyName}</p>
       <p>{job.fullTime}</p>
       <p>{job.salary}</p>
       <p>{job.location}</p>

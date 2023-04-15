@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 
+
 const ApplyJob = () => {
 
   const myParam = useLocation().search;
@@ -60,12 +61,9 @@ const ApplyJob = () => {
         Submit
       </Button>
     </form>
-
-    /* <div>
- 
-      
-     </div>*/
+    
   )
+
 }
 
 export default ApplyJob

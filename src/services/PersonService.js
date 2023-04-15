@@ -27,6 +27,19 @@ export const createUser = (person,emailID,password,callBack) => {
     });
 }
 
+export const editPersonPost = (personDetails,callBack) => {
+    axios.post(
+        "https://localhost:7297/api/JobPortalAPI/PostPersonDetails", personDetails
+    ).tthen((res) => {
+        if (res.status !== 201) {
+            if (callBack != null && typeof (callBack) == "function") callBack("failure");
+        }
+        else {
+            if (callBack != null && typeof (callBack) == "function") callBack(res.data);
+        }
+    });
+}
+
 export const createJobPost = (postJobFormData, callBack) => {
     axios.post(
         "https://localhost:7297/api/JobPortalAPI/postJob", postJobFormData

@@ -10,16 +10,18 @@ import ApplyJob from "./ApplyJob";
 import Modal from 'react-bootstrap/Modal';
 import ViewProfile from "./ViewProfile";
 import { FaEdit } from "react-icons/fa";
-import UseBodyScrollLock from "./UseBodyScrollLock";
 import EditProfile from "./EditProfile";
+
+
 
 const JobList = () => {
 
+  const [query, setQuery] = useState(" ");
   const [jobList, setJobList] = useState([])
   const [modalToDisplay, setModal] = useState();
 
   const handleClose = () => setModal(null);
-  const handleShow = () => setModal("ApplyJob");
+  const handleShow = () => setModal("Apply");
   const showProfileModal = () => setModal("Profile");
   const showEditProfile = () => setModal("Edit");
 
@@ -41,17 +43,13 @@ const JobList = () => {
     if (modalToDisplay == 'Profile') {
       return 'View Profile'
     }
-    else if (modalToDisplay == 'ApplyJob') {
+    else if (modalToDisplay == 'Apply') {
       return 'Apply'
     }
     else {
       return 'Edit'
     }
   }
-  // const onClick=(e) =>{
-  //   e.preventDefault();
-
-  // }
 
   return (
     //  Navbar
@@ -62,11 +60,14 @@ const JobList = () => {
           <Form className="d-flex">
             <Form.Control
               type="search"
-              placeholder="Search by title"
+              placeholder="Search by Job Title"
               className="me-2"
               aria-label="Search"
+              onChange={e => setQuery(e.target.value)}
             />
+
             <Button variant="outline-success">Search</Button>
+
           </Form>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -94,9 +95,10 @@ const JobList = () => {
             <div className="w-50 d-none d-sm-block overflow-auto vh-100 ">
               <Table className="table table-bordered">
                 <tbody>
-                  {jobList.map((job) =>
+                  {jobList.filter(job => job.jobTitle.toLowerCase().includes(query)
+                  ).map((job) =>
                     <tr>
-                      <td> <Job key={job.jobID} variant="primary" job={job} ></Job></td>
+                      <td><Job key={job.jobID} variant="primary" job={job} ></Job></td>
                     </tr>
                   )}
                 </tbody>
@@ -119,11 +121,11 @@ const JobList = () => {
                   }
                   </Modal.Title>
 
-                  {<FaEdit onClick={showEditProfile} title="Edit" />}
+                  {modalToDisplay != 'Apply' && <FaEdit onClick={showEditProfile} title="Edit" />}
                 </Modal.Header>
                 <Modal.Body>
                   {modalToDisplay == 'Profile' && <ViewProfile />}
-                  {modalToDisplay == 'ApplyJob' && <ApplyJob />}
+                  {modalToDisplay == 'Apply' && <ApplyJob />}
                   {modalToDisplay == 'Edit' && <EditProfile />}
                 </Modal.Body>
                 <Modal.Footer>
@@ -136,9 +138,6 @@ const JobList = () => {
           </div>
         </Container>
       </section>
-
-      <UseBodyScrollLock />
-
     </div>
   )
 }
