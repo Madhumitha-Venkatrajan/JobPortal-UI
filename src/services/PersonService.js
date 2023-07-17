@@ -11,14 +11,14 @@ import { Buffer } from "buffer";
 
 // }
 
-export const createUser = (person,emailID,password,callBack) => {
+export const createUser = (person, emailID, password, callBack) => {
     const base64encodedData = Buffer.from(`${emailID}:${password}`).toString('base64');
     axios.post(
         "https://localhost:7297/api/JobPortalAPI/SignUp", person, {
-            headers: {
-                'Authorization': `Basic ${base64encodedData}`
-            }
+        headers: {
+            'Authorization': `Basic ${base64encodedData}`
         }
+    }
     ).then((res) => {
         if (res.status == 200) {
             setTimeout(renewAuthToken, 900000);
@@ -27,15 +27,23 @@ export const createUser = (person,emailID,password,callBack) => {
     });
 }
 
-export const editPersonPost = (personDetails,callBack) => {
+export const editPersonPost = (personDetails, callBack) => {
+   // const base64encodedData = Buffer.from(`${emailID}:${password}`).toString('base64');
     axios.post(
-        "https://localhost:7297/api/JobPortalAPI/PostPersonDetails", personDetails
-    ).tthen((res) => {
+        "https://localhost:7297/api/JobPortalAPI/PostPersonDetails", personDetails, {
+        headers: {
+            'Authorization': `Basic ${base64encodedData}`
+        }
+    }
+    ).then((res) => {
         if (res.status !== 201) {
             if (callBack != null && typeof (callBack) == "function") callBack("failure");
         }
         else {
-            if (callBack != null && typeof (callBack) == "function") callBack(res.data);
+            if (callBack != null && typeof (callBack) == "function") {
+                setTimeout(renewAuthToken, 900000);
+                callBack(res.data);
+            }
         }
     });
 }
@@ -56,8 +64,6 @@ export const createJobPost = (postJobFormData, callBack) => {
 }
 
 export const jobApplied = (formData, callBack) => {
-
-
     axios.post(
         "https://localhost:7297/api/JobPortalAPI/appliedJobs", formData, {
         headers: {
@@ -87,12 +93,12 @@ export const renewAuthToken = () => {
     const jwtToken = sessionStorage.getItem('jwttoken');
     const refreshToken = sessionStorage.getItem('refreshtoken');
     axios.post(
-        "https://localhost:7297/api/JobPortalAPI/RefToken",{
-            jwttoken : jwtToken,
-            refreshtoken : refreshToken  
-        }
+        "https://localhost:7297/api/JobPortalAPI/RefToken", {
+        jwttoken: jwtToken,
+        refreshtoken: refreshToken
+    }
     ).then((res) => {
-        if (res.status == 200){
+        if (res.status == 200) {
             sessionStorage.setItem('jwttoken', res.data.jwttoken);
             sessionStorage.setItem('refreshtoken', res.data.refreshtoken);
             sessionStorage.setItem('authTokenTime', (new Date()).getTime());
@@ -137,10 +143,10 @@ export const getJob = (callBack) => {
     });
 }
 
-export const getPersonDetails = (callBack,emailID) => {
+export const getPersonDetails = (callBack, emailID) => {
     axios.get(
         `https://localhost:7297/api/JobportalAPI/ProfileDetails/${emailID}`,
-        
+
     ).then((res) => {
         console.log("Received response from api");
         if (res.status === 200) {
@@ -149,14 +155,14 @@ export const getPersonDetails = (callBack,emailID) => {
     });
 }
 
-    export const editPersonDetails = (callBack,emailID) => {
-        axios.get(
-            `https://localhost:7297/api/JobportalAPI/EditProfile/${emailID}`,
-            
-        ).then((res) => {
-            console.log("Received response from api");
-            if (res.status === 200) {
-                if (callBack != null && typeof (callBack) == "function") callBack(res.data);
-            }
-        });
+export const editPersonDetails = (callBack, emailID) => {
+    axios.get(
+        `https://localhost:7297/api/JobportalAPI/EditProfile/${emailID}`,
+
+    ).then((res) => {
+        console.log("Received response from api");
+        if (res.status === 200) {
+            if (callBack != null && typeof (callBack) == "function") callBack(res.data);
+        }
+    });
 }

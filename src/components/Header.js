@@ -9,6 +9,7 @@ import SignUpForm from "./SignUpForm";
 
 
 
+
 const Header = ({ title }) => {
   // const navigate = useNavigate();
 
@@ -36,8 +37,8 @@ const Header = ({ title }) => {
               <Nav.Link href="home">Home</Nav.Link>
               <Nav.Link href="postJob">Post Job</Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#ContactUs/3.1">Contact Us</NavDropdown.Item>
-                <NavDropdown.Item href="#About/3.2">
+                <Nav.Link href="ContactUs">ContactUs</Nav.Link>
+                <NavDropdown.Item href="About/3.2">
                   About
                 </NavDropdown.Item>
               </NavDropdown>

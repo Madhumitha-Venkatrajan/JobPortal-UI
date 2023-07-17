@@ -11,6 +11,8 @@ import Modal from 'react-bootstrap/Modal';
 import ViewProfile from "./ViewProfile";
 import { FaEdit } from "react-icons/fa";
 import EditProfile from "./EditProfile";
+import ContactUS from "./ContactUS";
+
 
 
 
@@ -78,7 +80,7 @@ const JobList = () => {
                 <NavDropdown.Item onClick={showProfileModal}>View Profile
                 </NavDropdown.Item>
                 <NavDropdown.Item href="#Admin/3.2">Admin</NavDropdown.Item>
-                <NavDropdown.Item href="#ContactUs/3.3">Contact Us</NavDropdown.Item>
+                <Nav.Link href="ContactUs">ContactUs</Nav.Link>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#About/3.2">
                   SignOut

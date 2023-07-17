@@ -13,6 +13,7 @@ const LoginForm = () => {
         }
     )
 
+
     const navigate = useNavigate();
 
     const navigateToJobList = () => {
@@ -56,11 +57,9 @@ const LoginForm = () => {
         <Form>
 
             <Form.Group className="mb-3" controlId="formGroupEmail">
-                {/* <Form.Label>Email address</Form.Label> */}
                 <Form.Control type="email" placeholder="Enter email" value={loginData.emailID} onChange={eMailID} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formGroupPassword">
-                {/* <Form.Label>Password</Form.Label> */}
                 <Form.Control type="password" placeholder="Password" value={loginData.password} onChange={password} />
             </Form.Group>
             <Button onClick={submit} variant="primary" type="submit" value="Submit">

@@ -6,6 +6,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+
+
 
 
 const SignUpForm = () => {
@@ -23,6 +26,11 @@ const SignUpForm = () => {
             //  confirmPassword: ''
         })
 
+    const [cmpnyIDToDisplay, setCmpnyID] = useState();
+
+    const handleClose = () => setCmpnyID(null);
+
+
     const roles = [
         { roleID: "1", roleName: "Job Seeker" },
         { roleID: "2", roleName: "Job Provider" }
@@ -33,7 +41,7 @@ const SignUpForm = () => {
             return role.roleID == roleID;
         });
         if (filteredRole == null || filteredRole.length <= 0) return "";
-        return filteredRole[0].roleName;
+        return filteredRole[1].roleName;
     }
 
     const navigate = useNavigate();
@@ -81,8 +89,8 @@ const SignUpForm = () => {
             }
             alert("successfully created profile");
             sessionStorage.setItem('EmailID', formDataPass.emailID)
-            sessionStorage.setItem('jwttoken',res.data.jwttoken);
-            sessionStorage.setItem('refreshtoken',res.data.refreshtoken);
+            sessionStorage.setItem('jwttoken', res.data.jwttoken);
+            sessionStorage.setItem('refreshtoken', res.data.refreshtoken);
             sessionStorage.setItem('authTokenTime', (new Date()).getTime());
             navigateToJobList();
         }
@@ -94,7 +102,7 @@ const SignUpForm = () => {
 
     const submit = (e) => {
         e.preventDefault()
-        createUser(formData,formDataPass.emailID,formDataPass.password, createUserStatus)
+        createUser(formData, formDataPass.emailID, formDataPass.password, createUserStatus)
     }
 
 
@@ -115,7 +123,7 @@ const SignUpForm = () => {
             </Form.Group>
             <DropdownButton onSelect={updateRoleID} variant="light" title={getRoleNameByID(formData.roleID)}>
                 {roles.map((role) =>
-                    <Dropdown.Item eventKey={role.roleID}>{role.roleName}</Dropdown.Item>
+                    <Dropdown.Item key={role.roleID} eventKey={role.roleID}>{role.roleName}</Dropdown.Item>
                 )}
             </DropdownButton>
             <div class="lead my-4">

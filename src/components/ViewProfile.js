@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from "react";
 import { getPersonDetails } from '../services/PersonService';
 import Modal from 'react-bootstrap/Modal';
-import {FaEdit} from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 
 const ViewProfile = () => {
 
@@ -25,7 +25,7 @@ const ViewProfile = () => {
         })
 
     useEffect(() => {
-        getPersonDetails(setFormData,'emailID')
+        getPersonDetails(setFormData, 'emailID')
     }, []);
 
     const updateName = (e) => {
@@ -54,40 +54,40 @@ const ViewProfile = () => {
 
     }
     return (
-                <form>
-                    <div class="form-group row" > 
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Name: </label>
-                        <div class="col-sm-10">
-                            <input type="text" readonly class="form-control-plaintext" 
-                                id="staticEmail"value={formData.name}/>
-                        </div>
-                        <label for="staticEmail" class="col-sm-2 col-form-label">PhoneNumber:</label>
-                        <div class="col-sm-10">
-                            <input type="text" readonly class="form-control-plaintext"
-                                id="staticEmail" value={formData.phoneNumber} />
-                        </div>
-                        <label for="staticEmail" class="col-sm-2 col-form-label">EmailID:</label>
-                        <div class="col-sm-10">
-                            <input type="text" readonly class="form-control-plaintext"
-                                id="staticEmail" value={formData.emailID} />
-                        </div>
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Experience:</label>
-                        <div class="col-sm-10">
-                            <input type="text" readonly class="form-control-plaintext"
-                                id="staticEmail" value={formData.experience} />
-                        </div>
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Education:</label>
-                        <div class="col-sm-10">
-                            <input type="text" readonly class="form-control-plaintext"
-                                id="staticEmail" value={formData.education} />
-                        </div>
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Skills:</label>
-                        <div class="col-sm-10">
-                            <input type="text" readonly class="form-control-plaintext"
-                                id="staticEmail" value={formData.skills} />
-                        </div>
-                    </div>
-                </form>
+        <form>
+            <div class="form-group row" >
+                <label for="staticEmail" class="col-sm-2 col-form-label">Name: </label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext"
+                        id="staticEmail" value={formData.name} />
+                </div>
+                <label for="staticEmail" class="col-sm-2 col-form-label">PhoneNumber:</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext"
+                        id="staticEmail" value={formData.phoneNumber} />
+                </div>
+                <label for="staticEmail" class="col-sm-2 col-form-label">EmailID:</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext"
+                        id="staticEmail" value={formData.emailID} />
+                </div>
+                <label for="staticEmail" class="col-sm-2 col-form-label">Experience:</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext"
+                        id="staticEmail" value={formData.experience} />
+                </div>
+                <label for="staticEmail" class="col-sm-2 col-form-label">Education:</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext"
+                        id="staticEmail" value={formData.education} />
+                </div>
+                <label for="staticEmail" class="col-sm-2 col-form-label">Skills:</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext"
+                        id="staticEmail" value={formData.skills} />
+                </div>
+            </div>
+        </form>
     );
 }
 
